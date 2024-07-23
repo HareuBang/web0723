@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <title>star</title>
+
+  <script>
+    $(document).ready(function() {
+     // div.container 생성
+      $('<div class="container"></div>').css({
+        width: '430px',
+        display: 'flex',
+        flexWrap: 'wrap'
+      }).appendTo('body');
+      /* item(검정색 배경컬러)의 모두 같은 크기(같은 서로의 간격), item 별 찍기 모양 유지하면서 배경의 중앙 정렬하는 방법은? */
+      /* height 값을 입력하지 않아 기본 특성인 "최대한 줄어든다."가 적용될 것 같아 생각했지만 적용이 되지 않았다. 이유는? */
+
+    // div.item 생성
+    for(let i=0; i<10; i++) {
+        $('<div class="item"></div>').css({
+        backgroundColor: '#333',
+        color: '#fff',
+        padding: '10px',
+        margin: '10px',
+        flexGrow: '1',
+        flexBasis: '0'
+      }).appendTo('.container');
+    }
+
+    const input = prompt('반복할 숫자를 입력해주세요.');
+    const star = "*";
+    /* const space = " ";  별 찍기 2번에 설명한 이유 참고. */
+    const space = "&nbsp";
+    let answer = [];
+
+    // 1.
+    answer.push(star.repeat(input));
+
+    // 2.
+    /* HTML에서 일반적으로 텍스트 내의 \n은 공백으로 처리됩니다. 즉, 브라우저는 \n을 특수 문자로 인식하지 않고 무시하므로 줄바꿈을 표현하기 위해서는 HTML 태그인 <br>을 사용해야 합니다. */
+    answer.push((star + "<br>").repeat(input));
+
+    // 3.
+    answer.push((answer[0] + "<br>").repeat(input));
+
+    // 4.
+    let temp = "";
+    for(let strarCount=1; strarCount<=input; strarCount++){
+      temp += star.repeat(strarCount) + "<br>";
+    }
+    answer.push(temp);
+
+    // 5.
+    temp = "";
+    for(let strarCount=input; strarCount>=1; strarCount--){
+      temp += star.repeat(strarCount) + "<br>";
+    }
+    answer.push(temp);
+
+    // 6.
+    temp = "";
+    for(let strarCount=1, spaceCount=input-1; strarCount<=input; strarCount++, spaceCount--) {
+      temp += space.repeat(spaceCount) + star.repeat(strarCount) + "<br>";
+    }
+    answer.push(temp);
+
+    // 7.
+    temp = "";
+    for(let strarCount=input, spaceCount=0; strarCount>0; strarCount--, spaceCount++) {
+      temp += space.repeat(spaceCount) + star.repeat(strarCount) + "<br>";
+    }
+    answer.push(temp);
+
+    // 8.
+    temp = "";
+    for(let line=0, strarCount=1, spaceCount=input-1; line<input; line++) {
+      temp += space.repeat(spaceCount) + star.repeat(strarCount) + "<br>";
+      strarCount += 2;
+      spaceCount--;
+    }
+    answer.push(temp);
+
+    // 9.
+    temp = "";
+    for(let line=0, strarCount=(input * 2)-1, spaceCount=0; line<input; line++) {
+      temp += space.repeat(spaceCount) + star.repeat(strarCount) + "<br>";
+      strarCount -= 2;
+      spaceCount++;
+    }
+    answer.push(temp);
+
+    // 10.
+    temp = "";
+    let strarCount = 1;
+    let spaceCount = input - 1;
+    for(let line=(input * 2)-1; line>0; line--) {
+      temp += space.repeat(spaceCount) + star.repeat(strarCount) + "<br>";
+
+      if(line <= input) {
+        strarCount -= 2;
+        spaceCount++;
+      } else {
+        strarCount += 2;
+        spaceCount--;
+      }
+    }
+    answer.push(temp);
+
+    // 출력하기
+    // $('.item').text(`${answer[0]}`); -> 별 찍기 2번 이유.
+    /* $('.item').forEach((i, idx) => {
+          $(`${i}`).html(`${answer[idx]}`);
+        })
+         $(`${i}`) 에 대한 Error
+    */
+    answer.forEach((an, idx) => {
+      $(`.item:nth-child(${idx + 1})`).html(`${an}`);
+    })
+  })
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
